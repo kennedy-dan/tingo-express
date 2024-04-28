@@ -10,7 +10,7 @@ const Card = ({ property }) => {
       id={`card-${index}`}
     >
       <div className="flex justify-center ">
-        <img src={img} className="" />
+        <img src={img} alt='' className="" />
       </div>
       <div className="details  bg-[#F3F3F3] -mt-24 pt-24 rounded-lg">
         <p className="text-sm py-3 text-center text-gray-500">{text}</p>
@@ -19,22 +19,7 @@ const Card = ({ property }) => {
   );
 };
 
-const HeroCard = ({ property }) => {
-  const { img, text, index } = property;
-  return (
-    <div
-      className=" card-hero w-scree sm:w-[200px] rounded-lg  px-3 py-6 "
-      id={`card-${index}`}
-    >
-      <div className="flex justify-center ">
-        <img src={img} className="w-40 h-40" />
-      </div>
-      <div className="details  bg-[#FFEEDE] -mt-16 pt-32 rounded-lg">
-        <p className="text-sm py-3 text-center text-gray-500">{text}</p>
-      </div>
-    </div>
-  );
-};
+
 
 const Home = () => {
   const data = {
@@ -192,8 +177,8 @@ const Home = () => {
               Express{" "}
             </p>
             <div className="flex mt-6 justify-between w-[70%]">
-              {time.map((items) => (
-                <div>
+              {time.map((items, index) => (
+                <div key={index}>
                   <div className="bg-white  rounded-md p-5">
                     <p className='font-bold text-2xl'>{items.days}</p>
                   </div>
@@ -220,12 +205,12 @@ const Home = () => {
                       <p className="text-bold px-[52px] text-[#3F612D] pt-2">Read More...</p>
                     </div>
                     <div className=" absolute  top-[-60%] left-[-18%] w-[400px] b z-10 bg-re ">
-                      <img src={!heroactiveBtn? data1.img: data2.img} className=" b w-[400px] h-[300px] z-10 " />
+                      <img src={!heroactiveBtn? data1.img: data2.img} alt='' className=" b w-[400px] h-[300px] z-10 " />
                     </div>
                   </div>
                   <div className="  w-scree sm:w-[200px]  rounded-lg  px-3  ">
                     <div className="flex justify-center ">
-                      <img src={heroactiveBtn? data1.img: data2.img} className="w-40 h-40" />
+                      <img src={heroactiveBtn? data1.img: data2.img} alt='' className="w-40 h-40" />
                     </div>
                     <div className="details  bg-[#FFEEDE] -mt-16 pt-20 pb-4   rounded-lg">
                       <p className="text-sm py-3  pl-[40px]  text-black">
@@ -276,6 +261,7 @@ const Home = () => {
           <img
             src="/images/bannericon.png"
             className=" left-[50%] right-[50%] -mt-10 w-20 h-20"
+            alt=''
           />
         </div>
         <div className="flex justify-center -mt-10">
@@ -304,7 +290,7 @@ const Home = () => {
               </button>
             </div>
             <div className=''>
-              <img src="/images/robot.png"  />
+              <img src="/images/robot.png"  alt=''/>
             </div>
           </div>
           <div className="bg-secondary flex items-center justify-between px-10 rounded-md">
@@ -317,7 +303,7 @@ const Home = () => {
               </button>
             </div>
             <div className=''>
-              <img src="/images/phone.png" />
+              <img src="/images/phone.png" alt=''/>
             </div>
           </div>
         </div>
@@ -341,7 +327,7 @@ const Home = () => {
                 }}
               >
                 {properties.map((props) => (
-                  <div
+                  <div key={props.index}
                     className={`${props.index === property.index ? "" : " "}`}
                   >
                     <Card key={props._id} property={props} />
@@ -387,7 +373,7 @@ const Home = () => {
       <section className="mt-24">
         <div className="bg-secondary px-20 py-20">
           <div className="flex justify-center">
-            <img src="/images/world.png" className="" />
+            <img src="/images/world.png" className="" alt=''/>
           </div>
           <p className=" text-center font-semibold text-white pt-6 leading-[48px] text-[37px]">
             Nation Wide Supermarket Outlets and Fast Delivery{" "}
@@ -443,7 +429,7 @@ const Home = () => {
         <div className="w">
           <div className="flex relative items-center mr-9">
             <div className=" absolute -left-[6%]">
-              <img src="/images/exp1.png" className=" w-16 z-1" />
+              <img src="/images/exp1.png" alt='' className=" w-16 z-1" />
             </div>
             <div className="bg-white rounded-2xl shadow-lg py-4 -z-1 px-16">
               <p className="text-[31px]">Personalized Experience</p>
@@ -456,7 +442,7 @@ const Home = () => {
           </div>
           <div className="flex relative items-center  ml-9 mt-3">
             <div className=" absolute -left-[6%]">
-              <img src="/images/exp2.png" className=" w-16 z-1" />
+              <img src="/images/exp2.png" className=" w-16 z-1" alt=''/>
             </div>
             <div className=" bg-primary rounded-2xl text-white shadow-lg py-4 -z-1 px-16">
               <p className="text-[31px]">Speedy Delivery</p>
@@ -469,7 +455,7 @@ const Home = () => {
           </div>
           <div className="flex relative items-center mr-9 mt-3">
             <div className=" absolute -left-[6%]">
-              <img src="/images/exp3.png" className=" w-16 z-1" />
+              <img alt=''src="/images/exp3.png" className=" w-16 z-1" />
             </div>
             <div className="bg-white rounded-2xl shadow-lg py-4 -z-1 px-16">
               <p className="text-[31px]">Quality and Freshness</p>
@@ -487,7 +473,7 @@ const Home = () => {
 
       <section className="mt-24">
         <div className="bg-secondary flex items-center px-20 ">
-          <img src="images/handshake.png" />
+          <img src="images/handshake.png" alt=''/>
           <div className="text-white">
             <p className="text-[30px]">
               Join Us in Revolutionizing Grocery Shopping: Partnership
