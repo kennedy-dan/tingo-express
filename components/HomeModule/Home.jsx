@@ -481,7 +481,7 @@ const Home = () => {
             </p>
             <p className="pt-7 text-gray-300 text-sm">
               uality: Our wholesalWhether you are a delivery partner,
-              franchiser, or media partner, there's a place for you in our
+              franchiser, or media partner, there iss a place for you in our
               network.e enterprise is driven by a commitment to building lasting
               partnerships and delivering superior products.
             </p>
