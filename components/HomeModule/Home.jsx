@@ -1,5 +1,5 @@
 // components
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 const Card = ({ property }) => {
@@ -10,7 +10,7 @@ const Card = ({ property }) => {
       id={`card-${index}`}
     >
       <div className="flex justify-center ">
-        <img src={img} alt='' className="" />
+        <img src={img} alt="" className="" />
       </div>
       <div className="details  bg-[#F3F3F3] -mt-24 pt-24 rounded-lg">
         <p className="text-sm py-3 text-center text-gray-500">{text}</p>
@@ -18,8 +18,6 @@ const Card = ({ property }) => {
     </div>
   );
 };
-
-
 
 const Home = () => {
   const data = {
@@ -125,12 +123,39 @@ const Home = () => {
   const [heroproperties, setHeroproperties] = useState(hero.heroSlide);
   const [activeBtn, setActiveBtn] = useState(true);
   const [heroactiveBtn, setActiveHeroBtn] = useState(false);
-  const time = [
-    { days: "00", time: "Days" },
-    { days: "00", time: "Hours" },
-    { days: "30", time: "Minutes" },
-    { days: "49", time: "Seconds" },
-  ];
+
+  const [timerDays, setTimerDays] = useState("00");
+  const [timerHours, setTimerHours] = useState("00");
+  const [timerMinnutes, setTimerMinutes] = useState("00");
+  const [timerSeconds, setTimerSeconds] = useState("00");
+
+  let interVal = useRef();
+
+  const startTimer = () => {
+    const countdownDate = new Date("May 30, 2024 00:00:00").getTime();
+
+    interVal = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      if (distance < 0) {
+        clearImmediate(interVal.current)
+        //stop timer
+      } else {
+        setTimerDays(days);
+        setTimerHours(hours);
+        setTimerMinutes(minutes);
+        setTimerSeconds(seconds);
+      }
+    });
+  };
+
   // next movement
   const nextProperty = () => {
     const newIndex = property.index + 1;
@@ -145,12 +170,10 @@ const Home = () => {
   };
 
   const nextHeroProperty = () => {
-   
     setActiveHeroBtn(true);
   };
   //prev movement
   const prevHeroProperty = () => {
-   
     setActiveHeroBtn(false);
   };
 
@@ -160,29 +183,41 @@ const Home = () => {
   const thirdLine = states.slice(15);
 
   const data1 = {
-    img:'/images/fruit1.png'
-  }
+    img: "/images/fruit1.png",
+  };
 
   const data2 = {
-    img:'/images/fruit2.png'
-  }
+    img: "/images/fruit2.png",
+  };
+
+  useEffect(() => {
+    startTimer();
+    return () => {
+      clearInterval(interVal.current)
+    }
+  }, [])
+  const time = [
+    { days: timerDays, time: "Days" },
+    { days: timerHours, time: "Hours" },
+    { days: timerMinnutes, time: "Minutes" },
+    { days: timerSeconds, time: "Seconds" },
+  ];
 
   return (
     <section>
       <section className="">
-        <div className="bg-[url('/images/bghero.png')] bg-cover bg-blend-multiply bg-primary pt-10  h-screen flex items-center">
+        <div className="bg-[url('/images/bghero.png')] bg-cover bg-blend-soft-light bg-[#472A00] pt-10  h-screen flex items-center">
           <div className="w-[70%]  ml-20">
             <p className="text-white font-bold text-[50px] leading-[110%]">
-              Discover the Future of Grocery Shopping with  Tingo
-              Express{" "}
+              Discover the Future of Grocery Shopping with Tingo Express{" "}
             </p>
             <div className="flex mt-6 justify-between w-[70%]">
               {time.map((items, index) => (
                 <div key={index}>
                   <div className="bg-white  rounded-md p-5">
-                    <p className='font-bold text-2xl'>{items.days}</p>
+                    <p className="font-bold text-2xl">{items.days}</p>
                   </div>
-                  <p className='text-white text-sm'>{items.time}</p>
+                  <p className="text-white text-sm">{items.time}</p>
                 </div>
               ))}
             </div>
@@ -194,41 +229,51 @@ const Home = () => {
           <div className=" z-1 w-1/2 ">
             <div className="mt-10   overflow-x-clip z-1">
               <div className="w-[310%]">
-                <div className={` flex z-1 overflow-x-hidde items-end max-w-ful ml-[260px] `}>
+                <div
+                  className={` flex z-1 overflow-x-hidde items-end max-w-ful ml-[260px] `}
+                >
                   <div className="  relative overflow-visible mr-4 sm:w-[290px] bg-[#FFEEDE] h-[300px] rounded-lg   py-6 ">
-                   
                     <div className="details pt-24 rounded-lg">
                       <p className=" py-3 text-left px-[52px] text-black text-2xl font-bold">
                         Groceries <br /> Vegetables
                       </p>
-                      <p className="3F612D px-[52px] text-sm">El sol brilla en el cielo azul</p>
-                      <p className="text-bold px-[52px] text-[#3F612D] pt-2">Read More...</p>
+                      <p className="3F612D px-[52px] text-sm">
+                        El sol brilla en el cielo azul
+                      </p>
+                      <p className="text-bold px-[52px] text-[#3F612D] pt-2">
+                        Read More...
+                      </p>
                     </div>
                     <div className=" absolute  top-[-60%] left-[-18%] w-[400px] b z-10 bg-re ">
-                      <img src={!heroactiveBtn? data1.img: data2.img} alt='' className=" b w-[400px] h-[300px] z-10 " />
+                      <img
+                        src={!heroactiveBtn ? data1.img : data2.img}
+                        alt=""
+                        className=" b w-[400px] h-[300px] z-10 "
+                      />
                     </div>
                   </div>
                   <div className="  w-scree sm:w-[200px]  rounded-lg  px-3  ">
                     <div className="flex justify-center ">
-                      <img src={heroactiveBtn? data1.img: data2.img} alt='' className="w-40 h-40" />
+                      <img
+                        src={heroactiveBtn ? data1.img : data2.img}
+                        alt=""
+                        className="w-40 h-40"
+                      />
                     </div>
                     <div className="details  bg-[#FFEEDE] -mt-16 pt-20 pb-4   rounded-lg">
                       <p className="text-sm py-3  pl-[40px]  text-black">
                         Groceries <br /> Vegetables
                       </p>
-                      <p className="3F612D px-[40px] text-[9px]">El sol brilla en el cielo azul</p>
-
+                      <p className="3F612D px-[40px] text-[9px]">
+                        El sol brilla en el cielo azul
+                      </p>
                     </div>
                   </div>
-               
                 </div>
               </div>
             </div>
             <div className="flex justify-center  mt-10 ml-28">
-              <button
-                className=" "
-                onClick={prevHeroProperty}
-              >
+              <button className=" " onClick={prevHeroProperty}>
                 <div
                   className={`p-5 ${
                     !heroactiveBtn ? "bg-[#3F612D] " : "bg-[#F3F3F3]"
@@ -237,10 +282,7 @@ const Home = () => {
                   <IoIosArrowBack />
                 </div>
               </button>{" "}
-              <button
-                className="    ml-4"
-                onClick={nextHeroProperty}
-              >
+              <button className="    ml-4" onClick={nextHeroProperty}>
                 <div
                   className={`p-5 ${
                     heroactiveBtn ? "bg-[#3F612D] " : "bg-[#F3F3F3]"
@@ -261,7 +303,7 @@ const Home = () => {
           <img
             src="/images/bannericon.png"
             className=" left-[50%] right-[50%] -mt-10 w-20 h-20"
-            alt=''
+            alt=""
           />
         </div>
         <div className="flex justify-center -mt-10">
@@ -283,27 +325,25 @@ const Home = () => {
           <div className="bg-secondary flex items-center justify-between pl-10 rounded-md">
             <div className="text-white">
               <p className="text-3xl">
-                TangoAI shopping <br /> assistant{" "}
+                TingoAI shopping <br /> assistant{" "}
               </p>
               <button className="bg-primary px-7 py-2 rounded-md mt-4">
                 Coming Soon
               </button>
             </div>
-            <div className=''>
-              <img src="/images/robot.png"  alt=''/>
+            <div className="">
+              <img src="/images/robot.png" alt="" />
             </div>
           </div>
           <div className="bg-secondary flex items-center justify-between px-10 rounded-md">
             <div className="text-white">
-              <p className="text-3xl">
-                TangoAI express mobile{" "}
-              </p>
+              <p className="text-3xl">Tingo express mobile </p>
               <button className="bg-primary px-7 py-2 rounded-md mt-4">
                 Coming Soon
               </button>
             </div>
-            <div className=''>
-              <img src="/images/phone.png" alt=''/>
+            <div className="">
+              <img src="/images/phone.png" alt="" />
             </div>
           </div>
         </div>
@@ -327,7 +367,8 @@ const Home = () => {
                 }}
               >
                 {properties.map((props) => (
-                  <div key={props.index}
+                  <div
+                    key={props.index}
                     className={`${props.index === property.index ? "" : " "}`}
                   >
                     <Card key={props._id} property={props} />
@@ -373,7 +414,7 @@ const Home = () => {
       <section className="mt-24">
         <div className="bg-secondary px-20 py-20">
           <div className="flex justify-center">
-            <img src="/images/world.png" className="" alt=''/>
+            <img src="/images/world.png" className="" alt="" />
           </div>
           <p className=" text-center font-semibold text-white pt-6 leading-[48px] text-[37px]">
             Nation Wide Supermarket Outlets and Fast Delivery{" "}
@@ -429,7 +470,7 @@ const Home = () => {
         <div className="w">
           <div className="flex relative items-center mr-9">
             <div className=" absolute -left-[6%]">
-              <img src="/images/exp1.png" alt='' className=" w-16 z-1" />
+              <img src="/images/exp1.png" alt="" className=" w-16 z-1" />
             </div>
             <div className="bg-white rounded-2xl shadow-lg py-4 -z-1 px-16">
               <p className="text-[31px]">Personalized Experience</p>
@@ -442,7 +483,7 @@ const Home = () => {
           </div>
           <div className="flex relative items-center  ml-9 mt-3">
             <div className=" absolute -left-[6%]">
-              <img src="/images/exp2.png" className=" w-16 z-1" alt=''/>
+              <img src="/images/exp2.png" className=" w-16 z-1" alt="" />
             </div>
             <div className=" bg-primary rounded-2xl text-white shadow-lg py-4 -z-1 px-16">
               <p className="text-[31px]">Speedy Delivery</p>
@@ -455,7 +496,7 @@ const Home = () => {
           </div>
           <div className="flex relative items-center mr-9 mt-3">
             <div className=" absolute -left-[6%]">
-              <img alt=''src="/images/exp3.png" className=" w-16 z-1" />
+              <img alt="" src="/images/exp3.png" className=" w-16 z-1" />
             </div>
             <div className="bg-white rounded-2xl shadow-lg py-4 -z-1 px-16">
               <p className="text-[31px]">Quality and Freshness</p>
@@ -473,7 +514,7 @@ const Home = () => {
 
       <section className="mt-24">
         <div className="bg-secondary flex items-center px-20 ">
-          <img src="images/handshake.png" alt=''/>
+          <img src="images/handshake.png" alt="" />
           <div className="text-white">
             <p className="text-[30px]">
               Join Us in Revolutionizing Grocery Shopping: Partnership
